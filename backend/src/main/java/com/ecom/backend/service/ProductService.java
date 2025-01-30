@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 
 @Service
@@ -23,6 +24,10 @@ public class ProductService {
         return productRepo.findById(id).orElse(new Product(-1));
     }
 
+    public String convertToBase64(byte[] imageBytes) {
+        return Base64.getEncoder().encodeToString(imageBytes);
+    }
+
     public Product addOrUpdateProduct(Product product, MultipartFile image) throws IOException {
         product.setImageName(image.getOriginalFilename());
         product.setImageType(image.getContentType());
@@ -36,5 +41,10 @@ public class ProductService {
 
     public List<Product> searchProducts(String keyword) {
         return productRepo.searchProducts(keyword);
+    }
+
+    public String getProductImageAsBase64(int productId) {
+        Product product = getProductById(productId);
+        return convertToBase64(product.getImageData());
     }
 }

@@ -82,5 +82,12 @@ public class ProductController {
         return new ResponseEntity<>(products,HttpStatus.OK);
     }
 
+    // Endpoint to get image as Base64 string
+    @GetMapping("/product/{productId}/image/base64")
+    public ResponseEntity<String> getImageAsBase64(@PathVariable int productId) {
+        String base64Image = productService.getProductImageAsBase64(productId);
+        return new ResponseEntity<>(base64Image, HttpStatus.OK);
+    }
+
 
 }

@@ -10,49 +10,42 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
-@Table(name = "product")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Table(name = "product") // Ensure this matches your table name
 public class Product {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String name;
+
     private String description;
+
     private String brand;
+
     private BigDecimal price;
+
     private String category;
-    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "dd-MM-yyyy")
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    @Column(name = "release_date") // Match with your DB column name
     private Date releaseDate;
+
+    @Column(name = "product_available") // Match with DB column
     private boolean productAvailable;
+
+    @Column(name = "stock_quantity") // Match with DB column
     private int stockQuantity;
+
+    @Column(name = "image_name") // Match with DB column
     private String imageName;
+
+    @Column(name = "image_type") // Match with DB column
     private String imageType;
+
     @Lob
+    @Column(name = "image_data") // Match with DB column
     private byte[] imageData;
-    
-    public Product (){
-        
-    }
-
-    public Product(int id, String name, String description, String brand, BigDecimal price, String category, Date releaseDate, boolean productAvailable, int stockQuantity, String imageName, String imageType, byte[] imageData) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.brand = brand;
-        this.price = price;
-        this.category = category;
-        this.releaseDate = releaseDate;
-        this.productAvailable = productAvailable;
-        this.stockQuantity = stockQuantity;
-        this.imageName = imageName;
-        this.imageType = imageType;
-        this.imageData = imageData;
-    }
-
-    public Product(int i) {
-    }
 
     public int getId() {
         return id;
@@ -110,11 +103,15 @@ public class Product {
         this.releaseDate = releaseDate;
     }
 
+    public boolean isAvailable() {
+        return productAvailable;
+    }
+
     public boolean isProductAvailable() {
         return productAvailable;
     }
 
-    public void setProductAvailable(boolean productAvailable) {
+    public void setAvailable(boolean productAvailable) {
         this.productAvailable = productAvailable;
     }
 
@@ -150,5 +147,27 @@ public class Product {
         this.imageData = imageData;
     }
 
-    
+    public Product(int i) {
+    }
+
+    public Product(){
+
+    }
+
+    public Product(int id, String name, String description, String brand, BigDecimal price, String category, Date releaseDate, boolean productAvailable, int stockQuantity, String imageName, String imageType, byte[] imageData) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.brand = brand;
+        this.price = price;
+        this.category = category;
+        this.releaseDate = releaseDate;
+        this.productAvailable = productAvailable;
+        this.stockQuantity = stockQuantity;
+        this.imageName = imageName;
+        this.imageType = imageType;
+        this.imageData = imageData;
+    }
 }
+
+
