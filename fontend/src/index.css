@@ -1,8 +1,115 @@
-.dark-theme{
+/* .dark-theme{
     --root_background: #1f1f1f;}
     .light-theme{
         --root_background: white;
     }
 :root{
     background-color: #1f1f1f;
+}
+
+
+
+
+
+@media (prefers-color-scheme: dark) {
+    .product-title {
+      color: #fff !important; /* Ensures visibility in dark mode 
+    }
+  } 
+
+  /* new update */
+
+  /* General Theme Styles */
+.dark-theme {
+    --root_background: #1f1f1f;
+    --text_color: white;
+    --input_background: #333;
+    --input_text: white;
+    --input_placeholder: #bbb;
+    --navbar_link: white;
+}
+
+.light-theme {
+    --root_background: white;
+    --text_color: black;
+    --input_background: white;
+    --input_text: black;
+    --input_placeholder: gray;
+    --navbar_link: black;
+}
+
+:root {
+    background-color: var(--root_background);
+    color: var(--text_color);
+}
+
+/* Navbar Styles */
+.navbar {
+    padding: 10px 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Search Bar */
+.search-input {
+    background-color: var(--input_background);
+    color: var(--input_text);
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    border-radius: 20px;
+    width: 250px;
+}
+
+/* Placeholder Visibility */
+.search-input::placeholder {
+    color: var(--input_placeholder) !important;
+}
+
+/* Search Dropdown */
+.search-results {
+    width: 250px;
+    background: var(--input_background);
+    color: var(--text_color);
+    border-radius: 8px;
+    top: 40px;
+    left: 0;
+    z-index: 1000;
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+    font-size: 20px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.theme-toggle:hover {
+    transform: scale(1.1);
+}
+
+/* Cart & Login Button */
+.cart-link, .login-button {
+    text-decoration: none;
+    font-size: 16px;
+    padding: 6px 12px;
+    border-radius: 20px;
+}
+
+.cart-link {
+    background: transparent;
+    color: var(--navbar_link);
+}
+
+.login-button {
+    background: var(--input_background);
+    color: var(--text_color);
+    border: 1px solid var(--input_placeholder);
+}
+
+/* Product Titles in Dark Mode */
+@media (prefers-color-scheme: dark) {
+    .product-title {
+        color: white !important;
+    }
 }

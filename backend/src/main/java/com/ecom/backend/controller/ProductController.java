@@ -77,9 +77,12 @@ public class ProductController {
 
     @GetMapping("/product/search")
     public ResponseEntity<List<Product>> searchProducts(@RequestParam String keyword){
+
+        System.out.println("Received search keyword: '" + keyword + "'");
         List<Product> products = productService.searchProducts(keyword);
-        System.out.println("Searching with"+keyword);
-        return new ResponseEntity<>(products,HttpStatus.OK);
+        System.out.println("Found products: " + products);
+        return new ResponseEntity<>(products, HttpStatus.OK);
+
     }
 
     // Endpoint to get image as Base64 string

@@ -68,9 +68,7 @@ const AllProducts = () => {
           onMouseEnter={(e) =>
             (e.currentTarget.style.transform = "scale(1.05)")
           }
-          onMouseLeave={(e) =>
-            (e.currentTarget.style.transform = "scale(1)")
-          }
+          onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
         >
           <Link
             to={`/product/${product.id}`}
@@ -90,7 +88,15 @@ const AllProducts = () => {
                 marginBottom: "12px",
               }}
             />
-            <h4 style={{ fontSize: "16px", margin: "8px 0" }}>
+            <h4
+              style={{
+                fontSize: "16px",
+                margin: "8px 0",
+                color: "#333", // Default for light mode
+                transition: "color 0.3s ease",
+              }}
+              className="product-title"
+            >
               {product.name}
             </h4>
             <p style={{ fontSize: "14px", color: "#555" }}>₹{product.price}</p>

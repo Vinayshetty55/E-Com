@@ -40,7 +40,11 @@ public class ProductService {
     }
 
     public List<Product> searchProducts(String keyword) {
-        return productRepo.searchProducts(keyword);
+        System.out.println("🔍 Searching with keyword: " + keyword);
+        List<Product> result = productRepo.searchProducts(keyword);
+        System.out.println("✅ Search Result from DB: " + result);
+
+        return result;
     }
 
     public String getProductImageAsBase64(int productId) {

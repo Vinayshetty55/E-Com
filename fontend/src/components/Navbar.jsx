@@ -1,603 +1,3 @@
-// import React, { useEffect, useState } from "react";
-// import Home from "./Home"
-// import axios from "axios";
-// // import { json } from "react-router-dom";
-// // import { BiSunFill, BiMoon } from "react-icons/bi";
-
-// const Navbar = ({ onSelectCategory, onSearch }) => {
-//   const getInitialTheme = () => {
-//     const storedTheme = localStorage.getItem("theme");
-//     return storedTheme ? storedTheme : "light-theme";
-//   };
-//   const [selectedCategory, setSelectedCategory] = useState("");
-//   const [theme, setTheme] = useState(getInitialTheme());
-//   const [input, setInput] = useState("");
-//   const [searchResults, setSearchResults] = useState([]);
-//   const [noResults, setNoResults] = useState(false);
-//   const [searchFocused, setSearchFocused] = useState(false);
-//   const [showSearchResults,setShowSearchResults] = useState(false)
-//   useEffect(() => {
-//     fetchData();
-//   }, []);
-
-//   const fetchData = async (value) => {
-//     try {
-//       const response = await axios.get("http://localhost:8081/api/products");
-//       setSearchResults(response.data);
-//       console.log(response.data);
-//     } catch (error) {
-//       console.error("Error fetching data:", error);
-//     }
-//   };
-
-//   const handleChange = async (value) => {
-//     setInput(value);
-//     if (value.length >= 1) {
-//       setShowSearchResults(true)
-//     try {
-//       const response = await axios.get(
-//         `http://localhost:8081/api/products/search?keyword=${value}`
-//       );
-//       setSearchResults(response.data);
-//       setNoResults(response.data.length === 0);
-//       console.log(response.data);
-//     } catch (error) {
-//       console.error("Error searching:", error);
-//     }
-//     } else {
-//       setShowSearchResults(false);
-//       setSearchResults([]);
-//       setNoResults(false);
-//     }
-//   };
-
-//   // const handleChange = async (value) => {
-//   //   setInput(value);
-//   //   if (value.length >= 1) {
-//   //     setShowSearchResults(true);
-//   //     try {
-//   //       let response;
-//   //       if (!isNaN(value)) {
-//   //         // Input is a number, search by ID
-//   //         response = await axios.get(`http://localhost:8080/api/products/search?id=${value}`);
-//   //       } else {
-//   //         // Input is not a number, search by keyword
-//   //         response = await axios.get(`http://localhost:8080/api/products/search?keyword=${value}`);
-//   //       }
-
-//   //       const results = response.data;
-//   //       setSearchResults(results);
-//   //       setNoResults(results.length === 0);
-//   //       console.log(results);
-//   //     } catch (error) {
-//   //       console.error("Error searching:", error.response ? error.response.data : error.message);
-//   //     }
-//   //   } else {
-//   //     setShowSearchResults(false);
-//   //     setSearchResults([]);
-//   //     setNoResults(false);
-//   //   }
-//   // };
-
-//   const handleCategorySelect = (category) => {
-//     setSelectedCategory(category);
-//     onSelectCategory(category);
-//   };
-//   const toggleTheme = () => {
-//     const newTheme = theme === "dark-theme" ? "light-theme" : "dark-theme";
-//     setTheme(newTheme);
-//     localStorage.setItem("theme", newTheme);
-//   };
-
-//   useEffect(() => {
-//     document.body.className = theme;
-//   }, [theme]);
-
-//   const categories = [
-//     "Laptop",
-//     "Headphone",
-//     "Mobile",
-//     "Electronics",
-//     "Toys",
-//     "Fashion",
-//   ];
-//   return (
-//     <>
-//       <header>
-//         <nav className="navbar navbar-expand-lg fixed-top">
-//           <div className="container-fluid">
-//             <a className="navbar-brand" href="/">
-//                 E-Com
-//             </a>
-//             <button
-//               className="navbar-toggler"
-//               type="button"
-//               data-bs-toggle="collapse"
-//               data-bs-target="#navbarSupportedContent"
-//               aria-controls="navbarSupportedContent"
-//               aria-expanded="false"
-//               aria-label="Toggle navigation"
-//             >
-//               <span className="navbar-toggler-icon"></span>
-//             </button>
-//             <div
-//               className="collapse navbar-collapse"
-//               id="navbarSupportedContent"
-//             >
-//               <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-//                 <li className="nav-item">
-//                   <a className="nav-link active" aria-current="page" href="/">
-//                     Home
-//                   </a>
-//                 </li>
-//                 <li className="nav-item">
-//                   <a className="nav-link" href="/add_product">
-//                     Add Product
-//                   </a>
-//                 </li>
-
-//                 <li className="nav-item dropdown">
-//                   <a
-//                     className="nav-link dropdown-toggle"
-//                     href="/"
-//                     role="button"
-//                     data-bs-toggle="dropdown"
-//                     aria-expanded="false"
-//                   >
-//                     Categories
-//                   </a>
-
-//                   <ul className="dropdown-menu">
-//                     {categories.map((category) => (
-//                       <li key={category}>
-//                         <button
-//                           className="dropdown-item"
-//                           onClick={() => handleCategorySelect(category)}
-//                         >
-//                           {category}
-//                         </button>
-//                       </li>
-//                     ))}
-//                   </ul>
-//                 </li>
-
-//                 <li className="nav-item"></li>
-//               </ul>
-//               <button className="theme-btn" onClick={() => toggleTheme()}>
-//                 {theme === "dark-theme" ? (
-//                   <i className="bi bi-moon-fill"></i>
-//                 ) : (
-//                   <i className="bi bi-sun-fill"></i>
-//                 )}
-//               </button>
-//               <div className="d-flex align-items-center cart">
-//                 <a href="/cart" className="nav-link text-dark">
-//                   <i
-//                     className="bi bi-cart me-2"
-//                     style={{ display: "flex", alignItems: "center" }}
-//                   >
-//                     Cart
-//                   </i>
-//                 </a>
-//                 {/* <form className="d-flex" role="search" onSubmit={handleSearch} id="searchForm"> */}
-//                 <input
-//                   className="form-control me-2"
-//                   type="search"
-//                   placeholder="Search"
-//                   aria-label="Search"
-//                   value={input}
-//                   onChange={(e) => handleChange(e.target.value)}
-//                   onFocus={() => setSearchFocused(true)} // Set searchFocused to true when search bar is focused
-//                   onBlur={() => setSearchFocused(false)} // Set searchFocused to false when search bar loses focus
-//                 />
-//                 {showSearchResults && (
-//                   <ul className="list-group">
-//                     {searchResults.length > 0 ? (
-//                         searchResults.map((result) => (
-//                           <li key={result.id} className="list-group-item">
-//                             <a href={`/product/${result.id}`} className="search-result-link">
-//                             <span>{result.name}</span>
-//                             </a>
-//                           </li>
-//                         ))
-//                     ) : (
-//                       noResults && (
-//                         <p className="no-results-message">
-//                           No Prouduct with such Name
-//                         </p>
-//                       )
-//                     )}
-//                   </ul>
-//                 )}
-//                 {/* <button
-//                   className="btn btn-outline-success"
-//                   onClick={handleSearch}
-//                 >
-//                   Search Products
-//                 </button> */}
-//                 {/* </form> */}
-//                 <div />
-//               </div>
-//             </div>
-//           </div>
-//         </nav>
-//       </header>
-//     </>
-//   );
-// };
-
-// export default Navbar;
-
-// Second Code
-
-// import React, { useEffect, useState } from "react";
-// import axios from "axios";
-
-// const Navbar = ({ onSelectCategory }) => {
-//   const getInitialTheme = () => {
-//     const storedTheme = localStorage.getItem("theme");
-//     return storedTheme ? storedTheme : "light-theme";
-//   };
-
-//   const [selectedCategory, setSelectedCategory] = useState("");
-//   const [theme, setTheme] = useState(getInitialTheme());
-//   const [input, setInput] = useState("");
-//   const [searchResults, setSearchResults] = useState([]);
-//   const [noResults, setNoResults] = useState(false);
-//   const [searchFocused, setSearchFocused] = useState(false);
-//   const [showSearchResults, setShowSearchResults] = useState(false);
-
-//   useEffect(() => {
-//     fetchData();
-//   }, []);
-
-//   const fetchData = async () => {
-//     try {
-//       const response = await axios.get("http://localhost:8081/api/products");
-//       setSearchResults(response.data);
-//     } catch (error) {
-//       console.error("Error fetching data:", error);
-//     }
-//   };
-
-//   const handleChange = async (value) => {
-//     setInput(value);
-//     if (value.length >= 1) {
-//       setShowSearchResults(true);
-//       try {
-//         const response = await axios.get(
-//           `http://localhost:8081/api/products/search?keyword=${value}`
-//         );
-//         setSearchResults(response.data);
-//         setNoResults(response.data.length === 0);
-//       } catch (error) {
-//         console.error("Error searching:", error);
-//       }
-//     } else {
-//       setShowSearchResults(false);
-//       setSearchResults([]);
-//       setNoResults(false);
-//     }
-//   };
-
-//   const handleCategorySelect = (category) => {
-//     setSelectedCategory(category);
-//     onSelectCategory(category);
-//   };
-
-//   const toggleTheme = () => {
-//     const newTheme = theme === "dark-theme" ? "light-theme" : "dark-theme";
-//     setTheme(newTheme);
-//     localStorage.setItem("theme", newTheme);
-//   };
-
-//   useEffect(() => {
-//     document.body.className = theme;
-//   }, [theme]);
-
-//   const categories = [
-//     "Laptop",
-//     "Headphone",
-//     "Mobile",
-//     "Electronics",
-//     "Toys",
-//     "Fashion",
-//   ];
-
-//   return (
-//     <header>
-//       <nav className="navbar navbar-expand-lg fixed-top">
-//         <div className="container-fluid">
-//           <a className="navbar-brand" href="/">E-Com</a>
-//           <button
-//             className="navbar-toggler"
-//             type="button"
-//             data-bs-toggle="collapse"
-//             data-bs-target="#navbarSupportedContent"
-//             aria-controls="navbarSupportedContent"
-//             aria-expanded="false"
-//             aria-label="Toggle navigation"
-//           >
-//             <span className="navbar-toggler-icon"></span>
-//           </button>
-//           <div className="collapse navbar-collapse" id="navbarSupportedContent">
-//             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-//               <li className="nav-item">
-//                 <a className="nav-link active" aria-current="page" href="/">Home</a>
-//               </li>
-//               <li className="nav-item">
-//                 <a className="nav-link" href="/add_product">Add Product</a>
-//               </li>
-//               <li className="nav-item dropdown">
-//                 <a
-//                   className="nav-link dropdown-toggle"
-//                   href="/"
-//                   role="button"
-//                   data-bs-toggle="dropdown"
-//                   aria-expanded="false"
-//                 >
-//                   Categories
-//                 </a>
-//                 <ul className="dropdown-menu">
-//                   {categories.map((category) => (
-//                     <li key={category}>
-//                       <button
-//                         className="dropdown-item"
-//                         onClick={() => handleCategorySelect(category)}
-//                       >
-//                         {category}
-//                       </button>
-//                     </li>
-//                   ))}
-//                 </ul>
-//               </li>
-//             </ul>
-//             <button className="theme-btn" onClick={toggleTheme}>
-//               {theme === "dark-theme" ? (
-//                 <i className="bi bi-moon-fill"></i>
-//               ) : (
-//                 <i className="bi bi-sun-fill"></i>
-//               )}
-//             </button>
-//             <div className="d-flex align-items-center cart">
-//               <a href="/cart" className="nav-link text-dark">
-//                 <i className="bi bi-cart me-2">Cart</i>
-//               </a>
-//               <input
-//                 className="form-control me-2"
-//                 type="search"
-//                 placeholder="Search"
-//                 value={input}
-//                 onChange={(e) => handleChange(e.target.value)}
-//                 onFocus={() => setSearchFocused(true)}
-//                 onBlur={() => setSearchFocused(false)}
-//               />
-//               {showSearchResults && (
-//                 <ul className="list-group">
-//                   {searchResults.length > 0 ? (
-//                     searchResults.map((result) => (
-//                       <li key={result.id} className="list-group-item">
-//                         <a href={`/product/${result.id}`} className="search-result-link">
-//                           <span>{result.name}</span>
-//                         </a>
-//                       </li>
-//                     ))
-//                   ) : (
-//                     noResults && <p className="no-results-message">No Product with such Name</p>
-//                   )}
-//                 </ul>
-//               )}
-//             </div>
-//           </div>
-//         </div>
-//       </nav>
-//     </header>
-//   );
-// };
-
-// export default Navbar;
-
-//+++++++++++++++++  Version 2  ++++++++++++++++++
-
-// import React, { useEffect, useState } from "react";
-// import axios from "axios";
-
-// const Navbar = ({ onSelectCategory }) => {
-//   const getInitialTheme = () => {
-//     const storedTheme = localStorage.getItem("theme");
-//     return storedTheme ? storedTheme : "light-theme";
-//   };
-
-//   const [theme, setTheme] = useState(getInitialTheme());
-//   const [input, setInput] = useState("");
-//   const [searchResults, setSearchResults] = useState([]);
-//   const [noResults, setNoResults] = useState(false);
-//   const [showSearchResults, setShowSearchResults] = useState(false);
-
-//   useEffect(() => {
-//     fetchData();
-//   }, []);
-
-//   const fetchData = async () => {
-//     try {
-//       const response = await axios.get("http://localhost:8081/api/products");
-//       setSearchResults(response.data);
-//     } catch (error) {
-//       console.error("Error fetching data:", error);
-//     }
-//   };
-
-//   const handleChange = async (value) => {
-//     setInput(value);
-//     if (value.length >= 1) {
-//       setShowSearchResults(true);
-//       try {
-//         const response = await axios.get(
-//           `http://localhost:8081/api/products/search?keyword=${value}`
-//         );
-//         setSearchResults(response.data);
-//         setNoResults(response.data.length === 0);
-//       } catch (error) {
-//         console.error("Error searching:", error);
-//       }
-//     } else {
-//       setShowSearchResults(false);
-//       setSearchResults([]);
-//       setNoResults(false);
-//     }
-//   };
-
-//   const toggleTheme = () => {
-//     const newTheme = theme === "dark-theme" ? "light-theme" : "dark-theme";
-//     setTheme(newTheme);
-//     localStorage.setItem("theme", newTheme);
-//   };
-
-//   useEffect(() => {
-//     document.body.className = theme;
-//   }, [theme]);
-
-//   const categories = [
-//     "Laptop",
-//     "Headphone",
-//     "Mobile",
-//     "Electronics",
-//     "Toys",
-//     "Fashion",
-//   ];
-
-//   return (
-//     <>
-//       <header>
-//         <nav className="navbar navbar-expand-lg fixed-top">
-//           <div className="container-fluid">
-//             <a className="navbar-brand" href="/">
-//               E-Com
-//             </a>
-//             <button
-//               className="navbar-toggler"
-//               type="button"
-//               data-bs-toggle="collapse"
-//               data-bs-target="#navbarSupportedContent"
-//               aria-controls="navbarSupportedContent"
-//               aria-expanded="false"
-//               aria-label="Toggle navigation"
-//             >
-//               <span className="navbar-toggler-icon"></span>
-//             </button>
-//             <div
-//               className="collapse navbar-collapse"
-//               id="navbarSupportedContent"
-//             >
-//               <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-//                 <li className="nav-item">
-//                   <a className="nav-link active" aria-current="page" href="/">
-//                     Home
-//                   </a>
-//                 </li>
-//                 <li className="nav-item">
-//                   <a className="nav-link" href="/all-products">
-//                     All Products
-//                   </a>
-//                 </li>
-//                 <li className="nav-item">
-//                   <a className="nav-link" href="/add_product">
-//                     Add Product
-//                   </a>
-//                 </li>
-//                 <li className="nav-item dropdown">
-//                   <a
-//                     className="nav-link dropdown-toggle"
-//                     href="/"
-//                     role="button"
-//                     data-bs-toggle="dropdown"
-//                     aria-expanded="false"
-//                   >
-//                     Categories
-//                   </a>
-//                   <ul className="dropdown-menu">
-//                     {categories.map((category) => (
-//                       <li key={category}>
-//                         <button
-//                           className="dropdown-item"
-//                           onClick={() => onSelectCategory(category)}
-//                         >
-//                           {category}
-//                         </button>
-//                       </li>
-//                     ))}
-//                   </ul>
-//                 </li>
-//                 <div className="d-flex align-items-center ms-2 position-relative">
-//                   <input
-//                     className="form-control"
-//                     type="search"
-//                     placeholder="Search"
-//                     aria-label="Search"
-//                     value={input}
-//                     onChange={(e) => handleChange(e.target.value)}
-//                     style={{ width: "200px" }}
-//                   />
-//                   {showSearchResults && (
-//                     <ul className="list-group position-absolute">
-//                       {searchResults.length > 0
-//                         ? searchResults.map((result) => (
-//                             <li key={result.id} className="list-group-item">
-//                               <a
-//                                 href={`/product/${result.id}`}
-//                                 className="search-result-link"
-//                               >
-//                                 <span>{result.name}</span>
-//                               </a>
-//                             </li>
-//                           ))
-//                         : noResults && (
-//                             <p className="no-results-message">
-//                               No Product with such Name
-//                             </p>
-//                           )}
-//                     </ul>
-//                   )}
-//                 </div>
-//               </ul>
-//               <button
-//                 className="theme-btn"
-//                 onClick={toggleTheme}
-//                 aria-label="Toggle theme"
-//               >
-//                 {theme === "dark-theme" ? (
-//                   <i className="bi bi-moon-fill"></i>
-//                 ) : (
-//                   <i className="bi bi-sun-fill"></i>
-//                 )}
-//               </button>
-//               <a href="/cart" className="nav-link text-dark">
-//                 <i className="bi bi-cart me-2">Cart</i>
-//               </a>
-//               <a
-//                 href="/login"
-//                 className="nav-link text-white"
-//                 style={{
-//                   marginLeft: "10px",
-//                   textDecoration: "none",
-//                   padding: "5px 10px",
-//                   borderRadius: "5px",
-//                 }}
-//               >
-//                 Login/Signup
-//               </a>
-//             </div>
-//           </div>
-//         </nav>
-//       </header>
-//     </>
-//   );
-// };
-
-// export default Navbar;
-
-// ++++++++++++++++ Version 3 +++++++++++++++++++++
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -632,7 +32,7 @@ const Navbar = ({ onSelectCategory }) => {
       setShowSearchResults(true);
       try {
         const response = await axios.get(
-          `http://localhost:8081/api/products/search?keyword=${value}`
+          `http://localhost:8081/api/product/search?keyword=${value}`
         );
         setSearchResults(response.data);
         setNoResults(response.data.length === 0);
@@ -665,54 +65,47 @@ const Navbar = ({ onSelectCategory }) => {
     "Fashion",
   ];
 
-  const navbarStyle =
-    theme === "dark-theme" ? darkNavbarStyle : lightNavbarStyle;
-  const buttonStyle =
-    theme === "dark-theme" ? darkButtonStyle : lightButtonStyle;
+  const navbarStyle = {
+    backgroundColor: theme === "dark-theme" ? "#1a1a1a" : "#ffffff",
+    color: theme === "dark-theme" ? "#ffffff" : "#000000",
+    padding: "12px 20px",
+    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+    transition: "all 0.3s ease",
+  };
+
+  const textColor = theme === "dark-theme" ? "#ffffff" : "#000000";
 
   return (
     <>
       <header>
         <nav className="navbar navbar-expand-lg fixed-top" style={navbarStyle}>
-          <div className="container-fluid">
+          <div className="container-fluid d-flex align-items-center justify-content-between">
+            {/* Brand Name */}
             <a
               className="navbar-brand"
               href="/"
               style={{
-                fontFamily: "Arial, sans-serif",
                 fontSize: "24px",
-                color: theme === "dark-theme" ? "white" : "black",
+                fontWeight: "bold",
+                color: textColor,
+                textDecoration: "none",
               }}
             >
               E-Com
             </a>
-            <button
-              className="navbar-toggler"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#navbarSupportedContent"
-              aria-controls="navbarSupportedContent"
-              aria-expanded="false"
-              aria-label="Toggle navigation"
-              style={{
-                backgroundColor: theme === "dark-theme" ? "#444" : "#007bff",
-              }}
-            >
-              <span className="navbar-toggler-icon"></span>
-            </button>
-            <div
-              className="collapse navbar-collapse"
-              id="navbarSupportedContent"
-            >
-              <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+
+            {/* Navbar Links */}
+            <div className="collapse navbar-collapse">
+              <ul className="navbar-nav me-auto" style={{ gap: "20px" }}>
                 <li className="nav-item">
                   <a
-                    className="nav-link active"
-                    aria-current="page"
+                    className="nav-link"
                     href="/"
                     style={{
+                      color: textColor,
+                      textDecoration: "none",
                       fontSize: "16px",
-                      color: theme === "dark-theme" ? "white" : "black",
+                      fontWeight: "500",
                     }}
                   >
                     Home
@@ -723,8 +116,10 @@ const Navbar = ({ onSelectCategory }) => {
                     className="nav-link"
                     href="/all-products"
                     style={{
+                      color: textColor,
+                      textDecoration: "none",
                       fontSize: "16px",
-                      color: theme === "dark-theme" ? "white" : "black",
+                      fontWeight: "500",
                     }}
                   >
                     All Products
@@ -735,13 +130,17 @@ const Navbar = ({ onSelectCategory }) => {
                     className="nav-link"
                     href="/add_product"
                     style={{
+                      color: textColor,
+                      textDecoration: "none",
                       fontSize: "16px",
-                      color: theme === "dark-theme" ? "white" : "black",
+                      fontWeight: "500",
                     }}
                   >
                     Add Product
                   </a>
                 </li>
+
+                {/* Categories Dropdown */}
                 <li className="nav-item dropdown">
                   <a
                     className="nav-link dropdown-toggle"
@@ -750,20 +149,34 @@ const Navbar = ({ onSelectCategory }) => {
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                     style={{
+                      color: textColor,
+                      textDecoration: "none",
                       fontSize: "16px",
-                      color: theme === "dark-theme" ? "white" : "black",
+                      fontWeight: "500",
                     }}
                   >
                     Categories
                   </a>
-                  <ul className="dropdown-menu">
+                  <ul
+                    className="dropdown-menu"
+                    style={{
+                      backgroundColor:
+                        theme === "dark-theme" ? "#333" : "#ffffff",
+                    }}
+                  >
                     {categories.map((category) => (
                       <li key={category}>
                         <button
                           className="dropdown-item"
                           onClick={() => onSelectCategory(category)}
                           style={{
-                            color: theme === "dark-theme" ? "black" : "black",
+                            color:
+                              theme === "dark-theme" ? "#ffffff" : "#000000",
+                            backgroundColor: "transparent",
+                            border: "none",
+                            cursor: "pointer",
+                            width: "100%",
+                            textAlign: "left",
                           }}
                         >
                           {category}
@@ -772,72 +185,71 @@ const Navbar = ({ onSelectCategory }) => {
                     ))}
                   </ul>
                 </li>
-                <div className="d-flex align-items-center ms-2 position-relative">
-                  <input
-                    className="form-control"
-                    type="search"
-                    placeholder="Search"
-                    aria-label="Search"
-                    value={input}
-                    onChange={(e) => handleChange(e.target.value)}
-                    style={{
-                      width: "250px",
-                      backgroundColor: theme === "dark-theme" ? "#333" : "#fff",
-                      color: theme === "dark-theme" ? "white" : "black",
-                      padding: "8px 12px",
-                      fontSize: "14px",
-                    }}
-                  />
-                  {showSearchResults && (
-                    <ul
-                      className="list-group position-absolute"
-                      style={{
-                        backgroundColor:
-                          theme === "dark-theme" ? "#444" : "#fff",
-                      }}
-                    >
-                      {searchResults.length > 0
-                        ? searchResults.map((result) => (
-                            <li
-                              key={result.id}
-                              className="list-group-item"
-                              style={{
-                                color:
-                                  theme === "dark-theme" ? "white" : "black",
-                              }}
-                            >
-                              <a
-                                href={`/product/${result.id}`}
-                                className="search-result-link"
-                                style={{
-                                  color:
-                                    theme === "dark-theme" ? "white" : "black",
-                                }}
-                              >
-                                <span>{result.name}</span>
-                              </a>
-                            </li>
-                          ))
-                        : noResults && (
-                            <p
-                              className="no-results-message"
-                              style={{
-                                color:
-                                  theme === "dark-theme" ? "white" : "black",
-                              }}
-                            >
-                              No Product with such Name
-                            </p>
-                          )}
-                    </ul>
-                  )}
-                </div>
               </ul>
+            </div>
+
+            {/* Right Section - Search Bar, Theme Toggle, Cart, Login */}
+            <div className="d-flex align-items-center" style={{ gap: "20px" }}>
+              {/* Search Bar */}
+              <div className="position-relative">
+                <input
+                  className="form-control"
+                  type="search"
+                  value={input}
+                  onChange={(e) => handleChange(e.target.value)}
+                  placeholder="Search for products..."
+                  aria-label="Search"
+                  style={{
+                    width: "250px",
+                    backgroundColor:
+                      theme === "dark-theme" ? "#333" : "#f0f0f0",
+                    color: theme === "dark-theme" ? "#ffffff" : "#000000", // Ensure text color is visible
+                    padding: "8px 12px",
+                    fontSize: "14px",
+                    border: "none",
+                    borderRadius: "25px",
+                    transition: "all 0.3s ease",
+                    outline: "none",
+                    // Added important to force override any external styles
+                    fontWeight: "normal !important",
+                  }}
+                />
+
+                <style>
+                  {`
+                    input::placeholder {
+                      color: ${
+                        theme === "dark-theme" ? "#999" : "#666"
+                      } !important; /* Make placeholder text color change explicit */
+                      }
+
+                   input {
+                         color: ${
+                           theme === "dark-theme" ? "#ffffff" : "#000000"
+                         } !important; /* Ensure input text color visibility */
+                          }
+                         `}
+                </style>
+              </div>
+
+              {/* Theme Toggle Button */}
               <button
                 className="theme-btn rounded-circle"
                 onClick={toggleTheme}
                 aria-label="Toggle theme"
-                style={buttonStyle}
+                style={{
+                  backgroundColor:
+                    theme === "dark-theme" ? "#ffcc00" : "#007bff",
+                  color: theme === "dark-theme" ? "#000000" : "#ffffff",
+                  padding: "10px",
+                  border: "none",
+                  fontSize: "18px",
+                  cursor: "pointer",
+                  borderRadius: "50%",
+                  width: "40px",
+                  height: "40px",
+                  transition: "all 0.3s ease",
+                }}
               >
                 {theme === "dark-theme" ? (
                   <i className="bi bi-moon-fill"></i>
@@ -845,29 +257,33 @@ const Navbar = ({ onSelectCategory }) => {
                   <i className="bi bi-sun-fill"></i>
                 )}
               </button>
+
+              {/* Cart Button */}
               <a
                 href="/cart"
-                className="nav-link text-dark"
+                className="nav-link"
                 style={{
-                  color: theme === "dark-theme" ? "white" : "black",
-                  fontSize: "16px",
+                  fontSize: "18px",
+                  color: textColor,
+                  textDecoration: "none",
                 }}
               >
-                <i className="bi bi-cart me-2">Cart</i>
+                <i className="bi bi-cart"></i> Cart
               </a>
+
+              {/* Login Button */}
               <a
                 href="/login"
-                className="nav-link text-white"
+                className="btn"
                 style={{
-                  marginLeft: "10px",
-                  textDecoration: "none",
-                  padding: "5px 10px",
-                  borderRadius: "5px",
-                  backgroundColor: theme === "dark-theme" ? "#444" : "#007bff",
-                  fontSize: "16px",
+                  backgroundColor:
+                    theme === "dark-theme" ? "#ffcc00" : "#007bff",
+                  color: theme === "dark-theme" ? "#000000" : "#ffffff",
+                  padding: "8px 16px",
+                  borderRadius: "25px",
                 }}
               >
-                Login/Signup
+                Login / Signup
               </a>
             </div>
           </div>
@@ -875,37 +291,6 @@ const Navbar = ({ onSelectCategory }) => {
       </header>
     </>
   );
-};
-
-// Inline styles for dark and light themes
-const darkNavbarStyle = {
-  backgroundColor: "#333",
-  color: "white",
-};
-
-const lightNavbarStyle = {
-  backgroundColor: "#fff",
-  color: "black",
-};
-
-const darkButtonStyle = {
-  padding: "8px 12px",
-  backgroundColor: "#ffcc00",
-  border: "none",
-  cursor: "pointer",
-  fontSize: "18px",
-  borderRadius: "50%",
-  transition: "background-color 0.3s",
-};
-
-const lightButtonStyle = {
-  padding: "8px 12px",
-  backgroundColor: "#007bff",
-  border: "none",
-  cursor: "pointer",
-  fontSize: "18px",
-  borderRadius: "50%",
-  transition: "background-color 0.3s",
 };
 
 export default Navbar;
